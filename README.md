@@ -25,7 +25,7 @@
 
 ## 🛠️ Tech Stack
 
-- **Frontend:** ReactJS, Tailwind CSS  
+- **Frontend:** ReactJS, Sassy CSS  
 - **Backend:** NodeJS, ExpressJS, MongoDB  
 - **Authentication:** JWT, Bcrypt  
 - **Image Uploads:** Cloudinary  
