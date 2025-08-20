@@ -1,0 +1,186 @@
+@import "../../responsive.scss";
+
+.profilePage {
+  display: flex;
+  height: 100%;
+  overflow: hidden; // prevent double scrollbars
+
+  @include md {
+    flex-direction: column;
+    overflow: auto;
+  }
+
+  .actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+
+    button {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+
+      &:first-child {
+        background-color: #4caf50;
+        color: white;
+      }
+
+      &:last-child {
+        background-color: #f44336;
+        color: white;
+      }
+    }
+  }
+
+  .details {
+    flex: 3;
+    overflow-y: auto; // allow scroll in left side
+    min-height: 0; // flexbox fix
+    padding-bottom: 50px;
+
+    @include md {
+      flex: none;
+      height: max-content;
+    }
+
+    .wrapper {
+      padding-right: 50px;
+      display: flex;
+      flex-direction: column;
+      gap: 50px;
+      // ... rest unchanged
+    }
+  }
+
+  .chatContainer {
+    flex: 2;
+    background-color: #fcf5f3;
+    height: 100%;
+    overflow-y: auto; // ✅ now requests scroll
+    min-height: 0; // flexbox fix
+
+    @include md {
+      flex: none;
+      height: max-content;
+      overflow-y: visible;
+    }
+
+    .wrapper {
+      padding: 0px 20px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .requestsList {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 20px;
+
+      .requestCard {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        background: #fff;
+        border: 1px solid #ddd;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+        font-family: 'Segoe UI', sans-serif;
+
+        .buyerInfo {
+          display: flex;
+          align-items: center;
+          gap: 15px;
+
+          img {
+            width: 55px;
+            height: 55px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid #ccc;
+          }
+
+          .buyerText {
+            h4 {
+              margin: 0;
+              font-size: 16px;
+              font-weight: 600;
+              color: #222;
+            }
+
+            p {
+              margin: 4px 0 0;
+              font-size: 14px;
+              color: #666;
+            }
+          }
+        }
+
+        .details {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 20px;
+          font-size: 14px;
+          color: #333;
+
+          span {
+            font-weight: 600;
+            color: #111;
+          }
+
+          .status {
+            &.accepted {
+              color: #1e8e3e;
+            }
+
+            &.rejected {
+              color: #d93025;
+            }
+
+            &.awaited {
+              color: #f9ab00;
+            }
+          }
+        }
+
+        .actions {
+          display: flex;
+          gap: 10px;
+          margin-top: 10px;
+
+          button {
+            padding: 6px 14px;
+            font-size: 14px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.3s ease;
+
+            &.accept {
+              background-color: #1e8e3e;
+              color: white;
+
+              &:hover {
+                background-color: #17692f;
+              }
+            }
+
+            &.reject {
+              background-color: #d93025;
+              color: white;
+
+              &:hover {
+                background-color: #b4251b;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

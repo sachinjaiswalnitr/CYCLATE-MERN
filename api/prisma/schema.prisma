@@ -1,0 +1,128 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Post {
+  id          String        @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  price       Int
+  images      String[]
+  type        Type
+  createdAt   DateTime      @default(now())
+  user        User?         @relation(fields: [userId], references: [id])
+  userId      String        @db.ObjectId
+  postDetail  PostDetail?
+  savedPosts  SavedPost[]
+  hostel      String?
+  roomnumber  String?
+  shopname    String?
+  shopsector  String?
+  sold        Boolean  @default(false)
+  brand       String
+  color       String
+  gear        YesNo
+  drivetype   DriveType
+  contact     String
+  buyRequests BuyRequest[]  @relation("postRequests")
+}
+
+model PostDetail {
+  id         String  @id @default(auto()) @map("_id") @db.ObjectId
+  desc       String
+  post       Post    @relation(fields: [postId], references: [id])
+  postId     String  @unique @db.ObjectId
+}
+
+model SavedPost {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  post      Post     @relation(fields: [postId], references: [id])
+  userId    String   @db.ObjectId
+  postId    String   @db.ObjectId
+  createdAt DateTime @default(now())
+
+  @@unique([userId, postId])
+}
+
+model BuyRequest {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  post      Post     @relation("postRequests", fields: [postId], references: [id])
+  postId    String   @db.ObjectId
+  buyer     User?    @relation("buyerRequests", fields: [buyerId], references: [id])
+  buyerId   String?   @db.ObjectId
+  status    Status   @default(AWAITED)
+  createdAt DateTime @default(now())
+  @@unique([postId, buyerId])
+}
+
+model User {
+  id          String        @id @default(auto()) @map("_id") @db.ObjectId
+  email       String        @unique
+  username    String        @unique
+  password    String
+  avatar      String?
+  createdAt   DateTime      @default(now())
+  posts       Post[]
+  savedPosts  SavedPost[]
+  chats       Chat[]        @relation(fields: [chatIDs], references: [id])
+  chatIDs     String[]      @db.ObjectId
+  buyRequests BuyRequest[]  @relation("buyerRequests")
+  notifications Notification[]
+
+}
+
+model Chat {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  users      User[]    @relation(fields: [userIDs], references: [id])
+  userIDs    String[]  @db.ObjectId
+  createdAt  DateTime  @default(now())
+  seenBy     String[]  @db.ObjectId
+  messages   Message[]
+  lastMessage String?
+}
+
+model Notification {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String   @db.ObjectId
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Message {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  text      String
+  userId    String
+  chat      Chat     @relation(fields: [chatId], references: [id])
+  chatId    String   @db.ObjectId
+  createdAt DateTime @default(now())
+}
+
+enum DriveType {
+  manual
+  automatic
+}
+
+enum YesNo {
+  Yes
+  No
+}
+
+enum Type {
+  student
+  shop
+}
+
+enum Status {
+  AWAITED
+  ACCEPTED
+  REJECTED
+}
