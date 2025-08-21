@@ -7,7 +7,7 @@
 ## ✨ Key Features
 
 ### 🛍️ Cycle Listings
-- Post and manage cycles for sale with images and details  
+- Post and manage cycles for sale with images and details.  
 - Categorize listings by **seller type** (student or shop)  
 - Search and filter cycles by **minimum/maximum price**  
 
